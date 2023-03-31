@@ -1,0 +1,14 @@
+io.github.gfrmoretti
+io.github.gfrmoretti.annotations
+io.github.gfrmoretti.annotations.repeatables
+io.github.gfrmoretti.collectors
+io.github.gfrmoretti.conf
+io.github.gfrmoretti.custom
+io.github.gfrmoretti.datemap
+io.github.gfrmoretti.enummap
+io.github.gfrmoretti.exceptions
+io.github.gfrmoretti.functionmap
+io.github.gfrmoretti.mapperconfig
+io.github.gfrmoretti.retrievers
+io.github.gfrmoretti.retrievers.targetfield
+io.github.gfrmoretti.retrievers.valuegetter

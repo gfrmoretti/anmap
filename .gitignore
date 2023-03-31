@@ -1,0 +1,56 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### IntelliJ IDEA ###
+.idea/modules.xml
+.idea/jarRepositories.xml
+.idea/compiler.xml
+.idea/libraries/
+*.iws
+*.iml
+*.ipr
+.idea/
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
+
+#out ruby code
+*.lock
+/out/
+*.log
+out/*
+
+
+
+*/.bundle/config
+
+# component test
+/src/test/ruby/components/.bundle/config
+/src/test/ruby/components/cucumber_cmd_result
+/src/test/ruby/components/rerun.txt
+/src/test/ruby/components/rerun-toggle_config_all_true.txt
+/src/test/ruby/components/rerun-toggle_config_like_prod.txt
