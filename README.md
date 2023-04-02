@@ -9,6 +9,7 @@
 [![Generic badge](https://img.shields.io/badge/docs-passing-<>.svg)](https://gfrmoretti.github.io/anmap/)
 [![Javadoc](https://img.shields.io/badge/JavaDoc-Online-green)](https://gfrmoretti.github.io/anmap/javadoc/)
 
+[![Coverage](/jacoco/badge/jacoco.svg)]()
 [![Forks](https://img.shields.io/github/forks/gfrmoretti/anmap.svg)]()
 [![Stars](https://img.shields.io/github/stars/gfrmoretti/anmap.svg)]()
 [![Issues Open](https://img.shields.io/github/issues/gfrmoretti/anmap.svg)]()
@@ -90,6 +91,16 @@ You can find some examples in `InheritanceMapperTest` class [here](/src/test/jav
 ---
 
 ## Quick Start
+
+### Installing with maven
+
+```xml
+<dependency>
+  <groupId>io.github.gfrmoretti</groupId>
+  <artifactId>an-map</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
 
 ### Simple map
 
