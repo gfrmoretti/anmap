@@ -9,6 +9,7 @@ import io.github.gfrmoretti.retrievers.targetfield.FieldRetrieverOrchestrator;
 import io.github.gfrmoretti.retrievers.valuegetter.ValueGetterOrchestrator;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 
@@ -26,7 +27,8 @@ class FieldsMapper {
     }
 
     static <Source, Target> void mapFields(@NotNull Source source,
-                                           @NotNull Class<Target> targetClass,
+                                           @NotNull Class<? extends Target> targetClass,
+                                           @Nullable("Used for reference map.") Target target,
                                            @NotNull AnnotationSide annotationSide,
                                            @NotNull TargetValueCallback callback) {
         var side = annotationSide;
@@ -47,17 +49,24 @@ class FieldsMapper {
 
                 if (sourceValueIsNull(source, sourceField))
                     throw new SourceValueNullException();
-                var sourceValue = new ValueGetterOrchestrator(source, annotatedField, sourceField, targetField)
+                var sourceValue = new ValueGetterOrchestrator(source, annotatedField, sourceField, targetField, target)
                         .getValueToSet().orElseThrow();
 
                 callback.executeAction(targetField, sourceValue);
             } catch (SourceValueNullException e) {
-                log.debug("Source value is null, can not map '" + annotatedField.getName() + "' because his value is null.");
+                log.trace("Source value is null, can not map '" + annotatedField.getName() + "' because his value is null.");
             } catch (Exception e) {
-                log.debug("It can not map the field = '" + annotatedField.getName() + "'");
+                log.trace("It can not map the field = '" + annotatedField.getName() + "'");
             }
 
         }
+    }
+
+    static <Source, Target> void mapFieldsReference(@NotNull Source source,
+                                                    @NotNull Target target,
+                                                    @NotNull AnnotationSide annotationSide,
+                                                    @NotNull TargetValueCallback callback) {
+        mapFields(source, target.getClass(), target, annotationSide, callback);
     }
 
     private static boolean isIgnoreMapAnnotationPresent(Field annotatedField) {

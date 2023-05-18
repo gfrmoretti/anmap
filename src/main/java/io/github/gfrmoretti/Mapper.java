@@ -37,7 +37,7 @@ class Mapper {
                         result = factory.createWithConstructor(constructor);
                         break;
                     } catch (Exception e) {
-                        log.debug("Cannot construct", e);
+                        log.trace("Cannot construct", e);
                     }
                 }
             }
@@ -51,10 +51,21 @@ class Mapper {
         }
     }
 
-    static <Source, Target> Optional<Target> map(@NotNull Source source,
-                                                 @NotNull Target target,
-                                                 @NotNull AnnotationSide annotationSide) {
-        FieldsMapper.mapFields(source, target.getClass(), annotationSide, (targetField, sourceValue) -> {
+    private static <Source, Target> Optional<Target> map(@NotNull Source source,
+                                                         @NotNull Target target,
+                                                         @NotNull AnnotationSide annotationSide) {
+        FieldsMapper.mapFields(source, target.getClass(), null, annotationSide, (targetField, sourceValue) -> {
+            targetField.setAccessible(true);
+            targetField.set(target, sourceValue);
+        });
+
+        return Optional.of(target);
+    }
+
+    static <Source, Target> Optional<Target> mapReference(@NotNull Source source,
+                                                          @NotNull Target target,
+                                                          @NotNull AnnotationSide annotationSide) {
+        FieldsMapper.mapFieldsReference(source, target, annotationSide, (targetField, sourceValue) -> {
             targetField.setAccessible(true);
             targetField.set(target, sourceValue);
         });

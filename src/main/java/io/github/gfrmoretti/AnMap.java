@@ -102,7 +102,7 @@ public class AnMap {
     public static <Source, Target> void mapReference(@Nullable Source source, @Nullable Target target) {
         if (source == null || target == null)
             throw new IllegalArgumentException("Source or target can not be nulls.");
-        Mapper.map(source, target, AnnotationSide.AUTO_DETECT).orElseThrow();
+        Mapper.mapReference(source, target, AnnotationSide.AUTO_DETECT).orElseThrow();
     }
 
     /**
@@ -123,7 +123,7 @@ public class AnMap {
                                                      @NotNull AnnotationSide side) {
         if (source == null || target == null)
             throw new IllegalArgumentException("Source or target can not be nulls.");
-        Mapper.map(source, target, side).orElseThrow();
+        Mapper.mapReference(source, target, side).orElseThrow();
     }
 
     /**

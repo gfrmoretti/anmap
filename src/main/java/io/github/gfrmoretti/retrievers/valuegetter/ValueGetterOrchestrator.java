@@ -11,12 +11,13 @@ public class ValueGetterOrchestrator {
 
     List<Retriever<Object>> retrievers;
 
-    public ValueGetterOrchestrator(Object source, Field annotatedField, Field sourceField, Field targetField) {
+    public ValueGetterOrchestrator(Object source, Field annotatedField,
+                                   Field sourceField, Field targetField, Object target) {
         this.retrievers = List.of(
                 new DateValueRetriever(source, annotatedField, sourceField, targetField),
                 new FunctionValueRetriever(source, annotatedField, sourceField, targetField),
                 new EnumValueRetriever(source, annotatedField, sourceField, targetField),
-                new ImplicitMapValueRetriever(source, annotatedField, sourceField, targetField),
+                new ImplicitMapValueRetriever(source, annotatedField, sourceField, targetField, target),
                 new FieldValueRetriever(source, sourceField)
         );
     }

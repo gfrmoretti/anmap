@@ -42,7 +42,7 @@ class TargetFactory<Source, Target> {
     private void fullFillParamValueList(final ArrayList<Object> parameterValueList,
                                         Constructor<?> constructor) throws Exception {
         for (var paramName : getParameterNames(constructor)) {
-            FieldsMapper.mapFields(source, targetClass, annotationSide, (targetField, sourceValue) -> {
+            FieldsMapper.mapFields(source, targetClass, null, annotationSide, (targetField, sourceValue) -> {
                 if (Objects.equals(targetField.getName(), paramName))
                     parameterValueList.add(sourceValue);
             });

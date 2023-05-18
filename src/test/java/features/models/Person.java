@@ -16,4 +16,5 @@ import lombok.ToString;
 public class Person {
     private String name;
     private Integer age;
+    private LogInfo logInfo;
 }

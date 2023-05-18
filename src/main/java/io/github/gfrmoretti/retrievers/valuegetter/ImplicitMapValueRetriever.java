@@ -12,15 +12,19 @@ import java.util.Collection;
 import java.util.Optional;
 
 import static io.github.gfrmoretti.AnMap.map;
+import static io.github.gfrmoretti.AnMap.mapReference;
 
 @Slf4j
 public class ImplicitMapValueRetriever extends ValueGetter {
 
+    private final @Nullable("Optional, used to reference map.") Object target;
     @Nullable
     private ImplicitMap annotation;
 
-    public ImplicitMapValueRetriever(Object source, Field annotatedField, Field sourceField, Field targetField) {
+    public ImplicitMapValueRetriever(Object source, Field annotatedField,
+                                     Field sourceField, Field targetField, @Nullable Object target) {
         super(source, annotatedField, sourceField, targetField);
+        this.target = target;
     }
 
     @Override
@@ -66,8 +70,16 @@ public class ImplicitMapValueRetriever extends ValueGetter {
                 return Optional.empty();
             sourceField.setAccessible(true);
             var sourceValue = sourceField.get(source);
+
             if (sourceValue instanceof Collection<?>)
                 return annotation.collectorType().collectValue(sourceValue, targetField, annotation.annotationSide());
+
+            if (target != null) {
+                targetField.setAccessible(true);
+                mapReference(sourceField.get(source), targetField.get(target), annotation.annotationSide());
+                return Optional.ofNullable(targetField.get(target));
+            }
+
             return Optional.ofNullable(
                     map(sourceField.get(source), targetField.getType(), annotation.annotationSide())
                             .orElse(null));
