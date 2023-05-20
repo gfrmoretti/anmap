@@ -77,7 +77,8 @@ specified bellow.
 - [@ImplicitMap](/docs/annotations/implicit-map.md): use to implicit map an object inside the current mapped object,
   this means that you can create a
   hierarchy between objects and call mapper on each element using this annotation.
-
+- [@ConstructorMap](/docs/annotations/constructor-map.md): use to configure the priority and null values validation to
+- create any target class. Accept only in constructors.
 ---
 
 ## Inheritance
@@ -250,6 +251,7 @@ features to learn how to use all the features that this library can do it, these
 - [EnumMap](/docs/annotations/enum-map.md)
 - [ImplicitMap](/docs/annotations/implicit-map.md)
 - [IgnoreMap](/docs/annotations/ignore-map.md)
+- [ConstructorMap](/docs/annotations/constructor-map.md)
 
 ### Learn some important concepts to understand some behaviors.
 
