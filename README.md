@@ -99,7 +99,7 @@ You can find some examples in `InheritanceMapperTest` class [here](/src/test/jav
 <dependency>
   <groupId>io.github.gfrmoretti</groupId>
   <artifactId>an-map</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 
