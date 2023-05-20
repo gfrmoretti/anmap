@@ -4,7 +4,7 @@
 
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Maven](https://badgen.net/badge/icon/maven?icon=maven&label)](https://https://maven.apache.org/)
+[![Maven](https://badgen.net/badge/icon/maven?icon=maven&label)](https://mvnrepository.com/artifact/io.github.gfrmoretti/an-map)
 [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](https://github.com/Naereen/badges/)
 [![Generic badge](https://img.shields.io/badge/docs-passing-<>.svg)](https://gfrmoretti.github.io/anmap/)
 [![Javadoc](https://img.shields.io/badge/JavaDoc-Online-green)](https://gfrmoretti.github.io/anmap/javadoc/)

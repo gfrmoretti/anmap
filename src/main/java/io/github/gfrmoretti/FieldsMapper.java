@@ -30,6 +30,7 @@ class FieldsMapper {
                                            @NotNull Class<? extends Target> targetClass,
                                            @Nullable("Used for reference map.") Target target,
                                            @NotNull AnnotationSide annotationSide,
+                                           @NotNull Boolean acceptNullValues,
                                            @NotNull TargetValueCallback callback) {
         var side = annotationSide;
         if (annotationSide.equals(AnnotationSide.AUTO_DETECT))
@@ -47,8 +48,13 @@ class FieldsMapper {
                 var sourceField = fieldOrchestrator.getSourceField().orElseThrow();
                 var targetField = fieldOrchestrator.getTargetField().orElseThrow();
 
-                if (sourceValueIsNull(source, sourceField))
+                if (sourceValueIsNull(source, sourceField)) {
+                    if (acceptNullValues) {
+                        callback.executeAction(targetField, sourceField.get(source));
+                        continue;
+                    }
                     throw new SourceValueNullException();
+                }
                 var sourceValue = new ValueGetterOrchestrator(source, annotatedField, sourceField, targetField, target)
                         .getValueToSet().orElseThrow();
 
@@ -66,7 +72,7 @@ class FieldsMapper {
                                                     @NotNull Target target,
                                                     @NotNull AnnotationSide annotationSide,
                                                     @NotNull TargetValueCallback callback) {
-        mapFields(source, target.getClass(), target, annotationSide, callback);
+        mapFields(source, target.getClass(), target, annotationSide, false, callback);
     }
 
     private static boolean isIgnoreMapAnnotationPresent(Field annotatedField) {

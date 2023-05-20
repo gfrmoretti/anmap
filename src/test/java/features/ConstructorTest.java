@@ -1,26 +1,29 @@
 package features;
 
+import features.models.LogInfo;
+import features.models.LogInfoDto;
+import features.models.Transaction;
+import features.models.TransactionDto;
+import io.github.gfrmoretti.AnMap;
 import io.github.gfrmoretti.annotations.DateMap;
+import io.github.gfrmoretti.annotations.FunctionMap;
 import io.github.gfrmoretti.annotations.ImplicitMap;
 import io.github.gfrmoretti.annotations.Map;
-import io.github.gfrmoretti.annotations.FunctionMap;
 import io.github.gfrmoretti.datemap.StringToTemporalMapper;
+import io.github.gfrmoretti.functionmap.BigDecimalToStringFunctionMapper;
 import io.github.gfrmoretti.functionmap.IntegerToStringFunctionMapper;
 import lombok.Builder;
 import lombok.Data;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
-import static io.github.gfrmoretti.AnMap.map;
-import static io.github.gfrmoretti.AnMap.mapList;
-import static io.github.gfrmoretti.AnMap.mapOrElseThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static io.github.gfrmoretti.AnMap.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ConstructorTest {
 
@@ -91,7 +94,7 @@ public class ConstructorTest {
 
     @Test
     @DisplayName("Should not found any constructor.")
-    void shouldNotFoundContructor() {
+    void shouldNotFoundConstructor() {
         var simpleSource = SimpleObjSource.builder()
                 .name("name")
                 .build();
@@ -99,6 +102,44 @@ public class ConstructorTest {
         var target = map(simpleSource, WrongTarget.class);
 
         assertTrue(target.isEmpty());
+    }
+
+    @Test
+    @DisplayName("Should be able to construct object with null values in source.")
+    void shouldConstructWithNullValues() {
+        var log = new LogInfoDto("message");
+
+        var result = AnMap.mapOrElseThrow(log, LogInfo.class);
+
+        assertEquals(log.getId(), result.getId());
+        assertEquals(log.getMessage(), result.getMessage());
+        assertNull(result.getId());
+    }
+
+    @Test
+    @DisplayName("Should be able to construct object with multiples null values in source.")
+    void shouldConstructWithMultiplesNullValues() {
+        var transaction = new Transaction(null, new BigDecimal(10));
+
+        var result = AnMap.mapOrElseThrow(transaction, TransactionDto.class);
+
+        var value = new BigDecimalToStringFunctionMapper().mapValue(transaction.getValue()).orElse(null);
+        assertEquals(value, result.getValue());
+        assertEquals("default", result.getName());
+        assertNull(result.getDetails());
+        assertNull(result.getUuid());
+        assertNull(result.getExtra());
+    }
+
+    @Test
+    @DisplayName("Should be able to construct object using the priority constructor.")
+    void shouldConstructWithPriorityConstructor() {
+        var transaction = new Transaction("123", "name transaction", List.of("1", "2"),
+                new BigDecimal(20));
+
+        var result = AnMap.mapOrElseThrow(transaction, TransactionDto.class);
+
+        assertNotNull(result.getExtra());
     }
 
 

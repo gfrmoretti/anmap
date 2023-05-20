@@ -5,11 +5,19 @@ This page objective is to let you know how AnMap create a `TargetClass`.
 In order to create a class by reflection the AnMap will search in the TargetClass all the
 declared constructors and the logic is the follow one:
 
-*TRY TO CREATE IF ERROR TRY THE NEXT ONE*
+*FILTER ALL ANNOTATED CONSTRUCTORS WITH @ConstructorMap AND TRY TO CREATE BY ORDER 
+OF PRIORITY*
+
+*IF FAIL TO CREATE TRY THE NEXT ONE*
+
+*IF NO ONE IS SUCCESSFUL TRY TO CREATE AGAIN BUT THE OTHERS CONSTRUCTORS WITHOUT 
+THE ANNOTATION*
 
 *IF NO ONE IS SUCCESSFUL TRY TO CREATE WITHOUT PARAMS*
 
 *IF FAIL RETURN OPTIONAL EMPTY*
+
+To know more about @ConstructorMap click [here](/docs/annotations/constructor-map.md)
 
 ## Matching constructors parameters with source fields.
 

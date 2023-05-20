@@ -39,7 +39,7 @@ public class ReflectionUtils {
      * @return list of parameter names.
      * @throws IOException If something fails.
      */
-    static List<String> getParameterNames(Constructor<?> constructor) throws IOException {
+    public static List<String> getParameterNames(Constructor<?> constructor) throws IOException {
         var declaringClass = constructor.getDeclaringClass();
         var declaringClassLoader = declaringClass.getClassLoader();
 

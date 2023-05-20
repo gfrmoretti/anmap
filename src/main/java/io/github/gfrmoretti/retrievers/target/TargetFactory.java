@@ -1,12 +1,11 @@
-package io.github.gfrmoretti;
+package io.github.gfrmoretti.retrievers.target;
 
 import io.github.gfrmoretti.conf.AnnotationSide;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Objects;
 
-import static io.github.gfrmoretti.ReflectionUtils.getParameterNames;
+import static io.github.gfrmoretti.ConstructorUtils.fullFillParamValueList;
 
 class TargetFactory<Source, Target> {
 
@@ -26,12 +25,23 @@ class TargetFactory<Source, Target> {
 
     Target createWithConstructor(Constructor<?> constructor) throws Exception {
         var parameterValueList = new ArrayList<>();
-        fullFillParamValueList(parameterValueList, constructor);
+        fullFillParamValueList(source, targetClass, annotationSide, parameterValueList, constructor, false);
 
         var targetConstructor = targetClass.getDeclaredConstructor(constructor.getParameterTypes());
         targetConstructor.setAccessible(true);
         return targetConstructor.newInstance(parameterValueList.toArray());
     }
+
+    Target createWithAnnotatedConstructor(Constructor<?> constructor,
+                                          boolean acceptNullValues) throws Exception {
+        var parameterValueList = new ArrayList<>();
+        fullFillParamValueList(source, targetClass, annotationSide, parameterValueList, constructor, acceptNullValues);
+
+        var targetConstructor = targetClass.getDeclaredConstructor(constructor.getParameterTypes());
+        targetConstructor.setAccessible(true);
+        return targetConstructor.newInstance(parameterValueList.toArray());
+    }
+
 
     Target createWithEmptyConstructor() throws Exception {
         var constructor = targetClass.getDeclaredConstructor();
@@ -39,14 +49,5 @@ class TargetFactory<Source, Target> {
         return constructor.newInstance();
     }
 
-    private void fullFillParamValueList(final ArrayList<Object> parameterValueList,
-                                        Constructor<?> constructor) throws Exception {
-        for (var paramName : getParameterNames(constructor)) {
-            FieldsMapper.mapFields(source, targetClass, null, annotationSide, (targetField, sourceValue) -> {
-                if (Objects.equals(targetField.getName(), paramName))
-                    parameterValueList.add(sourceValue);
-            });
-        }
-    }
 
 }

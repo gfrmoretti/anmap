@@ -6,14 +6,9 @@ import org.junit.jupiter.api.Test;
 import quickstart.domains.bestof.Door;
 import quickstart.domains.bestof.House;
 import quickstart.domains.bestof.ValuationStatus;
+import quickstart.domains.constructormap.Transaction;
 import quickstart.domains.datemap.Person;
-import quickstart.domains.enummap.Payment;
-import quickstart.domains.enummap.PaymentCoin;
-import quickstart.domains.enummap.PaymentType;
-import quickstart.domains.enummap.PaymentValueType;
-import quickstart.domains.enummap.ReturnStatus;
-import quickstart.domains.enummap.StatusAccounting;
-import quickstart.domains.enummap.StatusTransfer;
+import quickstart.domains.enummap.*;
 import quickstart.domains.functionmap.Document;
 import quickstart.domains.functionmap.Email;
 import quickstart.domains.implicitmap.Board;
@@ -24,6 +19,7 @@ import quickstart.domains.simplemap.Address;
 import quickstart.domains.simplemap.Status;
 import quickstart.domains.simplemap.User;
 import quickstart.requests.bestof.HouseRequest;
+import quickstart.requests.constructormap.TransactionRequest;
 import quickstart.requests.datemap.PersonRequest;
 import quickstart.requests.enummap.PaymentRequest;
 import quickstart.requests.functionmap.DocumentRequest;
@@ -35,6 +31,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class QuickStartTest {
@@ -100,6 +97,17 @@ public class QuickStartTest {
 
         assertNotNull(request);
         System.out.println(request);
+    }
+
+    @Test
+    @DisplayName("Quick Start: Constructor map.")
+    void constructorMap() {
+        var transaction = new Transaction("123", "payment", null, new BigDecimal(20));
+
+        var result = AnMap.mapOrElseThrow(transaction, TransactionRequest.class);
+
+        assertEquals("priority 0", result.getPriority());
+        System.out.println(result);
     }
 
     @Test
