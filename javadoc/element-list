@@ -10,5 +10,6 @@ io.github.gfrmoretti.exceptions
 io.github.gfrmoretti.functionmap
 io.github.gfrmoretti.mapperconfig
 io.github.gfrmoretti.retrievers
+io.github.gfrmoretti.retrievers.target
 io.github.gfrmoretti.retrievers.targetfield
 io.github.gfrmoretti.retrievers.valuegetter
