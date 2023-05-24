@@ -4,6 +4,7 @@ import features.models.LogInfo;
 import features.models.LogInfoDto;
 import features.models.Transaction;
 import features.models.TransactionDto;
+import features.models.TransactionRequest;
 import io.github.gfrmoretti.AnMap;
 import io.github.gfrmoretti.annotations.DateMap;
 import io.github.gfrmoretti.annotations.FunctionMap;
@@ -22,8 +23,13 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
-import static io.github.gfrmoretti.AnMap.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static io.github.gfrmoretti.AnMap.map;
+import static io.github.gfrmoretti.AnMap.mapList;
+import static io.github.gfrmoretti.AnMap.mapOrElseThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ConstructorTest {
 
@@ -140,6 +146,23 @@ public class ConstructorTest {
         var result = AnMap.mapOrElseThrow(transaction, TransactionDto.class);
 
         assertNotNull(result.getExtra());
+    }
+
+    @Test
+    @DisplayName("Should be able to construct object filling with null in constructor.")
+    void shouldConstructFillingWithNullConstructor() {
+        var transaction = new Transaction("123", "name transaction", List.of("1", "2"),
+                new BigDecimal(20));
+
+        var result = AnMap.mapOrElseThrow(transaction, TransactionRequest.class);
+
+        assertNull(result.getExtra());
+        assertNull(result.getNumber());
+        assertNull(result.getFileName());
+        assertNotNull(result.getUuid());
+        assertNotNull(result.getName());
+        assertNotNull(result.getDetails());
+        assertNotNull(result.getValue());
     }
 
 

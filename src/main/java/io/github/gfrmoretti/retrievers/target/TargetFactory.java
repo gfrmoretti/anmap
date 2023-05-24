@@ -6,6 +6,7 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 
 import static io.github.gfrmoretti.ConstructorUtils.fullFillParamValueList;
+import static io.github.gfrmoretti.ConstructorUtils.fullFillParamValueListFillingWithNull;
 
 class TargetFactory<Source, Target> {
 
@@ -36,6 +37,15 @@ class TargetFactory<Source, Target> {
                                           boolean acceptNullValues) throws Exception {
         var parameterValueList = new ArrayList<>();
         fullFillParamValueList(source, targetClass, annotationSide, parameterValueList, constructor, acceptNullValues);
+
+        var targetConstructor = targetClass.getDeclaredConstructor(constructor.getParameterTypes());
+        targetConstructor.setAccessible(true);
+        return targetConstructor.newInstance(parameterValueList.toArray());
+    }
+
+    Target createFillingWithNull(Constructor<?> constructor) throws Exception {
+        var parameterValueList = new ArrayList<>();
+        fullFillParamValueListFillingWithNull(source, targetClass, annotationSide, parameterValueList, constructor);
 
         var targetConstructor = targetClass.getDeclaredConstructor(constructor.getParameterTypes());
         targetConstructor.setAccessible(true);

@@ -31,4 +31,14 @@ public @interface ConstructorMap {
      * @return If accepts or not null values in the annotated constructor
      */
     boolean acceptNullValues() default false;
+
+    /**
+     * This property make the AnMap fulfill args not found in source with null values to try creates the constructor.
+     * <p>
+     * Set this property to true automatic makes the constructor accept null values even if the property
+     * <i>acceptNullValues</i> is not set or set with false.
+     *
+     * @return if constructor must be created filling the not found args with null values.
+     */
+    boolean fillArgsNotFoundWithNull() default false;
 }

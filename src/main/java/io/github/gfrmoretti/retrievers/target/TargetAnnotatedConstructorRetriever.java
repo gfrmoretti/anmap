@@ -31,7 +31,10 @@ class TargetAnnotatedConstructorRetriever<Target> extends TargetRetriever<Target
         for (Constructor<?> constructor : annotatedConstructor) {
             var annotation = constructor.getAnnotation(ConstructorMap.class);
             try {
-                var result = factory.createWithAnnotatedConstructor(constructor, annotation.acceptNullValues());
+                Target result = annotation.fillArgsNotFoundWithNull() ?
+                        factory.createFillingWithNull(constructor) :
+                        factory.createWithAnnotatedConstructor(constructor, annotation.acceptNullValues());
+
                 return Optional.ofNullable(result);
             } catch (Exception e) {
                 log.trace("Cannot annotated construct", e);
