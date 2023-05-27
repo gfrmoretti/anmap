@@ -33,7 +33,7 @@ public class MapSample {
     private String name;
     private String additionalInfo;
 
-    @ConstructorMap(acceptNullValues = true)
+    @ConstructorMap(acceptNullValues = true, fillArgsNotFoundWithNull = true)
     public MapSample(String id, String name, String additionalInfo) {
         this.id = id;
         this.name = name;
@@ -57,7 +57,9 @@ public class MapSample {
 
 This example make AnMap to try to create first the annotated constructor in order
 by the priority, so `zero priority` is the first attempt (by default the priority is zero).
-And this constructor is allowed to get null values from the source to match the constructor args.
+And this constructor is allowed to get null values from the source to match the constructor args. If
+the AnMap does not find match with source args the flag `fillArgsNotFoundWithNull` allow the AnMap to
+fill the args match with null values automatically.
 If fails will try the next annotated constructor with priority `one` in these case.
 If fails will try the unannotated constructor.
 
